@@ -1,0 +1,12 @@
+-- netbeans test phpunit --
+
+1. herramientas
+2. opciones
+3. php
+4. frameworks
+
+
+C:\wamp\bin\php\php5.5.12\phpunit.bat
+C:\wamp\bin\php\php5.5.12\phpunit-skelgen.bat
+
+phpunit --bootstrap test/testing.php test/generacion.php

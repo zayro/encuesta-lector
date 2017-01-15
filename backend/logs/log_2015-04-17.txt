@@ -1,0 +1,178 @@
+ ######################################################################### 
+[
+ HTTP_HOST: localhost]
+ 
+ 
+[
+ HTTP_USER_AGENT: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: /estructura_proyecto/prueba.php]
+ 
+
+ ######################################################################### 
+[2015-04-17 15:58:47 - INFORMATIVO ] RESUMEN INFORMATIVO
+
+ ######################################################################### 
+ ######################################################################### 
+[
+ HTTP_HOST:] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT:] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:00:06 - INFORMATIVO ] RESUMEN INFORMATIVO
+
+ ######################################################################### 
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:00:57 - INFORMATIVO ] RESUMEN INFORMATIVO
+
+ ######################################################################### 
+  
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:01:21 - INFORMATIVO ] RESUMEN INFORMATIVO
+
+ ######################################################################### 
+  
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:09:06 - INFORMATIVO ] RESUMEN INFORMATIVO 
+
+ ######################################################################### 
+  
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:10:43 - INFORMATIVO ] RESUMEN INFORMATIVO () )
+
+ ######################################################################### 
+  
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:11:21 - INFORMATIVO ] RESUMEN INFORMATIVO  )
+
+ ######################################################################### 
+  
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:11:47 - INFORMATIVO ] RESUMEN INFORMATIVO 127.0.0.1 
+
+ ######################################################################### 
+  
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:16:30 - INFORMATIVO ] RESUMEN INFORMATIVO 127.0.0.1 
+
+ ######################################################################### 
+  
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-17 16:16:41 - INFORMATIVO ] RESUMEN INFORMATIVO  
+
+ ######################################################################### 
+  

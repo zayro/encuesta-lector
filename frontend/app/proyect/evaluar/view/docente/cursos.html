@@ -1,0 +1,53 @@
+<script>
+    function categorias($scope, $http, $sessionStorage) {
+
+        var data = $sessionStorage.registros.datos[0];
+        console.debug('carga datos cursos', data.identificacion);
+
+        // $scope.data.identificacion = data.identificacion;
+
+
+
+        $http({
+            method: 'GET',
+            url: main_route + "app/evaluar/controller/controller_evaluar.php?aulas=true&id=" + data.identificacion,
+            data: $.param({
+                cursos: true
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function successCallback(response) {
+            var registros = response.data.registros;
+            console.log(registros);
+            $scope.registros = registros;
+
+        }, function errorCallback(response) {
+            console.error(response);
+        });
+    }
+</script>
+<div ng-cloak layout="row " layout-sm="column " layout-align="center center " layout-wrap ng-controller="categorias">
+
+    <div flex-gt-sm="90" flex>
+
+        <md-toolbar layout="row" class="md-hue-3">
+            <div class="md-toolbar-tools">
+                <span>Categoria</span>
+            </div>
+        </md-toolbar>
+
+        <md-content>
+            <md-list flex>
+                <md-subheader class="md-no-sticky">Aulas</md-subheader>
+                <md-list-item class="md-2-line" ng-repeat="dato in registros" ng-click="link('/resultado/modulos/informes/'+ dato.id )">
+                    <div class="md-list-item-text" layout="column">
+                        <h3>{{ dato.id + '-' + dato.cursos }}</h3>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+
+            </md-list>
+        </md-content>
+    </div>
+</div>

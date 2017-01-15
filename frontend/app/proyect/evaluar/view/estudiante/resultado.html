@@ -1,0 +1,136 @@
+<script>
+    function respuestas($scope, $http, $routeParams, $sessionStorage) {
+
+        var data = $sessionStorage.registros.datos[0];
+        console.debug('carga datos cursos', data.identificacion);
+        $http({
+            method: 'GET',
+            url: main_route + "app/evaluar/controller/controller_evaluar.php?respuestas_alumnos=true&identificacion=" + data.identificacion,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function successCallback(response) {
+            var registros = response.data.registros;
+            console.log(registros);
+            $scope.registros = registros;
+
+        }, function errorCallback(response) {
+            console.error(response);
+        });
+    }
+</script>
+
+<section layout="row " layout-sm="column " layout-align="center center " layout-wrap ng-controller="respuestas">
+
+    <md-card flex flex-gt-xs="98" class="md-whiteframe-2dp">
+
+
+        <md-card-header ng-hide="filter.show">
+
+
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon"><i class="material-icons">portrait</i></md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">RESULTADOS DE LECTURA</span>
+                <span class="md-subhead">LISTADO</span>
+            </md-card-header-text>
+
+
+            <md-button class="md-icon-button" ng-click="loadStuff(); CargarDatos();">
+                <md-icon>refresh</md-icon>
+                <md-tooltip>
+                    ACTUALIZAR
+                </md-tooltip>
+            </md-button>
+
+            <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="filter.show = true"><md-icon class="material-icons">search</md-icon><div class="md-ripple-container"></div><md-tooltip> BUSCAR  </md-tooltip></button>
+
+            <md-button class="md-icon-button" aria-label="file_download">
+                <a href="./php/descargar_plantilla.php" download>
+                    <md-icon>file_download</md-icon>
+                </a>
+                <md-tooltip>
+                    DESCARGAR
+                </md-tooltip>
+            </md-button>
+
+        </md-card-header>
+
+
+        <md-card-header ng-show="filter.show">
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <md-icon class="material-icons">search</md-icon>
+                    <form flex name="filter.form" class="flex">
+                        <md-input-container md-no-float class="md-block">
+                            <input type="text" ng-model="filter.search" placeholder="busqueda" style="margin-top: 20px;">
+                        </md-input-container>
+                    </form>
+                    <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="removeFilter()">     <md-icon class="material-icons">close</md-icon>      <div class="md-ripple-container"></div></button>
+                </div>
+            </md-toolbar>
+
+
+        </md-card-header>
+
+        <md-card-content>
+
+            <div id="contenedor_listado">
+
+                <md-table-container>
+                    <table md-table md-progress="promise">
+                        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                            <tr md-row>
+                                <th md-column md-order-by="id"><span>#</span></th>
+                                <th md-column md-order-by="fecha"><span>fecha</span></th>
+                                <th md-column md-order-by="nombres"><span>NOMBRES</span></th>
+                                <th md-column md-order-by="identificacion"><span>IDENTIFICACION</span></th>
+                                <th md-column md-order-by="titulo"><span>LECTURA</span></th>
+                                <th md-column md-order-by="literal"><span>LITERAL</span></th>
+                                <th md-column md-order-by="intertextual"><span>INTERTEXTUAL</span></th>
+                                <th md-column md-order-by="critico"><span>CRITICO</span></th>
+                                <th md-column md-order-by="inferencial"><span>INFERENCIAL</span></th>
+                                <th md-column md-order-by="correctas"><span>CORRECTAS</span></th>
+                                <th md-column md-order-by="total"><span>TOTAL</span></th>
+                                <th md-column md-order-by="nota"><span>NOTA</span></th>
+
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row md-select="dato" md-on-select="logItem" ng-repeat="dato in filtered = ( registros | filter: filter.search)  | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                                <td md-cell>{{$index}} </td>
+                                <td md-cell>{{dato.fecha}}</td>
+                                <td md-cell>{{dato.nombres + ' ' + dato.apellidos }}</td>
+                                <td md-cell>{{dato.identificacion}}</td>
+                                <td md-cell>{{dato.lectura}}</td>
+                                <td md-cell>{{(dato.literal * 100) / dato.total_literal| number}} % </td>
+                                <td md-cell>{{(dato.intertextual * 100) / dato.total_intertextual | number}} % </td>
+                                <td md-cell>{{(dato.critico * 100) / dato.total_critico| number}} % </td>
+                                <td md-cell>{{(dato.inferencial * 100) / dato.total_inferencial| number}} % </td>
+                                <td md-cell>{{dato.correctas}}</td>
+                                <td md-cell>{{dato.total}}</td>
+                                <td md-cell>{{ (dato.correctas*7)/dato.total | number}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </md-table-container>
+
+                <md-table-pagination md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'}" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{filtered.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks"
+                    md-on-paginate="logPagination">
+                </md-table-pagination>
+
+
+            </div>
+
+        </md-card-content>
+
+
+    </md-card>
+
+
+
+</section>

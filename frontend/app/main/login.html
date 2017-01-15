@@ -1,0 +1,60 @@
+<!-- login -->
+<section layout="row " layout-sm="column " layout-align="center center " layout-wrap>
+
+    <md-card flex flex-gt-xs="90" class="md-whiteframe-2dp" ng-controller="login">
+        <md-card-header>
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon"><i class="material-icons">portrait</i></md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">LOGIN</span>
+                <span class="md-subhead">INGRESO AL SISTEMA</span>
+            </md-card-header-text>
+        </md-card-header>
+
+        <form name="FormLogin" ng-submit="enviar_formulario_login()">
+
+            <md-card-content>
+
+
+                <md-input-container class="md-block">
+                    <label>IDENTIFICACION</label>
+                    <input required type="number" name="usuario" ng-model="usuario.usuario" ng-minlength="5" ng-maxlength="50" required />
+
+                    <div ng-messages="FormLogin.usuario.$error" ng-if="FormLogin.usuario.$touched" role="alert">
+                        <p ng-message="minlength">demasiado corto el registros.</p>
+                        <p ng-message="maxlength">excedio la cantidad de caracteres.</p>
+                        <p ng-message="required">este campo es requerido.</p>
+                    </div>
+
+
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>CONTRASEÑA</label>
+                    <input required type="password" name="clave" ng-model="usuario.clave" ng-minlength="6" ng-maxlength="12" required />
+                    <div ng-messages="FormLogin.clave.$error" ng-show="FormLogin.clave.$touched" role="alert">
+                        <p ng-message="minlength">demasiado corto el registros.</p>
+                        <p ng-message="maxlength">excedio la cantidad de caracteres.</p>
+                        <p ng-message="required">este campo es requerido.</p>
+                    </div>
+                </md-input-container>
+
+
+
+
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="start center">
+
+                <md-button class="md-raised md-accent" type="submit" ng-disabled="FormLogin.$invalid ">
+                    ENVIAR
+                </md-button>
+
+            </md-card-actions>
+        </form>
+    </md-card>
+
+
+</section>
+<!-- login -->

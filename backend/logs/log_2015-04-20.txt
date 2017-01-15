@@ -1,0 +1,18 @@
+ ######################################################################### 
+[
+ HTTP_HOST: ] localhost
+ 
+ 
+[
+ HTTP_USER_AGENT: ] Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36]
+ 
+
+[
+ REQUEST_URI: ]/estructura_proyecto/prueba.php
+ 
+
+ ######################################################################### 
+[2015-04-20 08:02:13 - INFORMATIVO ] RESUMEN INFORMATIVO 127.0.0.1 
+
+ ######################################################################### 
+  

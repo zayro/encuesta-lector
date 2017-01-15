@@ -1,0 +1,192 @@
+<script>
+    function EnvioCuestionario($scope, $location, $route, $mdDialog, $http, dato, $sessionStorage, $routeParams) {
+
+
+        $scope.data = {};
+
+        var data = $sessionStorage.registros.datos[0];
+
+        $scope.data.identificacion = data.identificacion;
+
+        console.debug('carga datos', data);
+        console.debug('carga datos', data.identificacion);
+
+        $scope.hide = function() {
+            $mdDialog.hide();
+        };
+
+        $scope.cancelar = function() {
+            $mdDialog.cancel();
+        };
+
+        $scope.guardar_resultado = function(datos) {
+
+            datos.identificacion = $scope.data.identificacion;
+
+            console.log('guardar_resultado', datos);
+
+            $http({
+                method: 'POST',
+                url: main_route + "app/evaluar/controller/controller_evaluar.php",
+                data: datos
+            }).then(function successCallback(response) {
+                console.log(response);
+                $scope.cancelar();
+            }, function errorCallback(response) {
+                console.error(response);
+            });
+        }
+
+
+        $http({
+            method: 'GET',
+            url: main_route + "app/evaluar/controller/controller_evaluar.php?preguntas=true&id=" + $routeParams.id + "&identificacion=" + data.identificacion,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function successCallback(response) {
+
+                var registros = response.data.registros;
+                console.debug('carga preguntas', registros);
+                $scope.preguntas = registros;
+
+                if (registros == undefined) {
+
+                    $scope.titulo = 'ya se realizo examen';
+
+                } else {
+
+                    $scope.titulo = 'Preguntas a resolver';
+                }
+
+            },
+            function errorCallback(response) {
+                console.error(response);
+            });
+    }
+
+    function evaluar($scope, $http, $mdMedia, $mdDialog, $routeParams) {
+
+        console.debug('routeParams', $routeParams);
+
+        console.log('ruta principal info', main_route);
+
+        $http({
+            method: 'GET',
+            url: main_route + "app/evaluar/controller/controller_evaluar.php?libros=true&id=" + $routeParams.id,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function successCallback(response) {
+
+
+                var registros = response.data.registros[0];
+
+                console.info(registros);
+
+                if (registros != undefined) {
+
+                    $scope.titulo = registros.titulo;
+                    $scope.texto = registros.texto;
+                }
+
+            },
+            function errorCallback(response) {
+                console.error(response);
+            });
+
+
+        $scope.MostrarCuestionario = function(eventos) {
+            $scope.customFullscreen = false;
+
+            $scope.preguntas = "";
+
+
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+            $mdDialog.show({
+                    controller: 'EnvioCuestionario',
+                    templateUrl: './proyect/evaluar/view/estudiante/cuestionario.html',
+                    parent: angular.element(document.body),
+                    locals: {
+                        dato: $scope.preguntas
+                    },
+                    targetEvent: eventos,
+                    clickOutsideToClose: true,
+                    fullscreen: useFullScreen
+                })
+                .then(function(answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function() {
+                    $scope.status = 'You cancelled the dialog.';
+                });
+            $scope.$watch(function() {
+                return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+                $scope.customFullscreen = (wantsFullScreen === true);
+            });
+        };
+
+    }
+</script>
+<style>
+    .page-container {
+        padding: 32px;
+    }
+    
+    .page {
+        margin: 0 auto;
+        padding: 24px;
+        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.25);
+    }
+    
+    .page h1 {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-top: 0;
+        font-weight: normal;
+    }
+    
+    .page p {
+        line-height: 1.6rem;
+    }
+    
+    .MenuBarra md-menu-bar {
+        z-index: 0;
+    }
+    
+    .inferior {
+        right: 2%;
+        /*A la izquierda deje un espacio de 0px*/
+        bottom: 4%;
+        /*Abajo deje un espacio de 0px*/
+        position: absolute;
+    }
+</style>
+
+<div id="IdEvaluar" ng-controller="evaluar" ng-cloak>
+
+    <div class="inferior">
+
+        <md-fab-speed-dial md-direction="up" class="md-fling">
+
+            <md-fab-trigger>
+                <md-button class="md-fab" aria-label="Add..." ng-click="MostrarCuestionario($event)">
+                    <md-icon class="material-icons">school</md-icon>
+                </md-button>
+            </md-fab-trigger>
+
+
+
+        </md-fab-speed-dial>
+    </div>
+
+    <!--   <div ng-include="'./proyect/evaluar/view/menu.html'"> </div> -->
+
+    <md-content class="page-container">
+        <md-card class="page" ng-cloak="">
+            <h1>{{titulo}}</h1>
+            <p ng-bind-html="texto"></p>
+        </md-card>
+    </md-content>
+
+</div>

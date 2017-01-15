@@ -1,0 +1,38 @@
+<md-dialog ng-cloak add-item-dialog>
+
+    <form name="formulario" ng-submit="guardar_resultado(data)">
+
+        <md-dialog-content class="md-dialog-content">
+
+            <h2 class="md-title"> <strong> {{titulo | uppercase }}</strong> </h2>
+
+            <div layout="row " class="input-row " flex ng-repeat="(key, value) in preguntas | groupBy: 'preguntas' ">
+
+                <md-input-container class="md-block ">
+
+                    <p> <span class="radioValue "> <strong>{{$index + 1 + ' ' +key}}  </strong> </span></p>
+
+                    <!-- <input type="hidden" ng-model="data.id_pregunta[$index] = value[0].id"> -->
+
+                    <md-radio-group ng-model="data.id_opcion[$index]" required>
+
+                        <md-radio-button ng-repeat="datos in value " value="{{datos.id}}"> {{datos.opciones}} </md-radio-button>
+
+                    </md-radio-group>
+
+                </md-input-container>
+
+
+            </div>
+
+        </md-dialog-content>
+
+
+        <div class="md-actions " ng-show="preguntas">
+            <md-button class="md-primary " type="submit " ng-disabled="formulario.$invalid ">ENVIAR</md-button>
+            <md-button class="md-primary " ng-click="cancelar() ">CANCELAR</md-button>
+        </div>
+
+    </form>
+
+</md-dialog>

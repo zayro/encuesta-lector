@@ -1,0 +1,31 @@
+{
+    "name": "estructura-proyecto",
+    "description": "esquema de trabajo propio estructura-proyecto.",
+    "keywords": ["framework", "webzav"],
+    "license": "MIT",
+    "type": "project",
+    "authors": [{
+        "name": "Marlon Zayro Arias Vargas",
+        "email": "zayro8905@gmail.com"
+    }],
+    "require": {
+        "php": ">=5.5",
+        "apigen/theme-bootstrap": "1.1.*",
+        "phpunit/phpunit": "~4.0",
+        "lcobucci/jwt": "^3.0",
+        "illuminate/database": "^5.2",
+        "monolog/monolog": "^1.19",
+        "popphp/pop-crypt": "^2.0"
+    },
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Testify\\": "componentes/Testify/lib/Testify/",
+            "librerias\\": "librerias/",
+            "app\\": "app/",
+            "config\\": "config/"
+        }
+    }
+}

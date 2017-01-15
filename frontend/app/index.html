@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="app">
+
+<head>
+    <title>WEB</title>
+
+    <!-- METAS -->
+    <!-- METAS -->
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="MARLON ZAYRO ARIAS VARGAS">
+
+    <meta name="format-detection">
+
+    <meta name="google">
+
+    <meta name="googlebot">
+
+    <meta name="robots" />
+
+    <meta name="verify" />
+
+    <meta name="description" content="HERRAMIENTA SOFTWARE">
+
+    <meta name="keywords" content="ZAVWEB, LECTOR, SISTEMA LECTOR " />
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logos/32_shield.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="images/logos/48_shield.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="images/logos/64_shield.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="images/logos/128_shield.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="images/logos/256_shield.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/logos/512_shield.png">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/logos/256_shield.png">
+    <meta name="msapplication-TileColor" content="#263238">
+    <meta name="theme-color" content="#263238">
+    <link rel="shortcut icon" href="images/logos/128_shield.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="WEB ZAVWEB">
+    <link rel="apple-touch-icon-precomposed" href="images/logos/256_shield.png">
+    <link rel="apple-touch-icon" sizes="32x32" href="images/logos/32_shield.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="images/logos/48_shield.png">
+    <link rel="apple-touch-icon" sizes="64x64" href="images/logos/64_shield.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="images/logos/128_shield.png">
+    <link rel="apple-touch-icon" sizes="256x256" href="images/logos/256_shield.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="images/logos/512_shield.png">
+
+    <!-- Google Authorship and Publisher Markup -->
+    <link rel="author" href="https://plus.google.com/+ZayroArias" />
+
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name " content="ZAVWEB LECTOR">
+    <meta itemprop="description " content="Herramientas Web">
+    <meta itemprop="image " content="http://lector.zavweb.com/images/logo-DPS-Gov.png">
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="ZAVWEB DPS" />
+    <meta property="og:type " content="article " />
+    <meta property="og:url " content=" http://lector.zavweb.com/" />
+    <meta property="og:image " content="http://lector.zavweb.com/images/logo-DPS-Gov.png " />
+    <meta property="og:description " content="Herramienta Metodologica " />
+    <meta property="og:site_name " content="ZAVWEB ">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport " content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes ">
+
+
+    <!-- bower:css-->
+
+    <link rel="stylesheet " href="bower_components/angular-loading-bar/build/loading-bar.css ">
+
+
+    <link rel="stylesheet " href="bower_components/angular-material/angular-material.css ">
+
+
+    <link rel="stylesheet " href="bower_components/angular-material-data-table/dist/md-data-table.css ">
+
+    <!-- endinject -->
+
+    <link rel="stylesheet " href="bower_components/material-design-icons/iconfont/material-icons.css ">
+
+
+    <link href="style.css " rel="stylesheet ">
+
+</head>
+
+<body ng-controller="AppCtrl">
+
+    <div class="{{pagina}} " ng-cloak>
+
+
+        <md-toolbar>
+            <div class="md-toolbar-tools ">
+
+
+                <md-button class="md-icon-button " aria-label="Settings " ng-click="toggleLeft() " ng-hide="isOpenLeft() ">
+                    <i class="material-icons ">menu</i>
+                </md-button>
+
+                <h2 class="md-flex ">
+                    <span class="Roboto ">COLEGIO</span></h2>
+
+                <span flex></span>
+
+                <md-button class="md-icon-button " aria-label="More " ng-click="salir(DatosUsuario.identificacion); ">
+                    <a><i class="material-icons ">power_settings_new</i></a>
+                </md-button>
+
+
+            </div>
+        </md-toolbar>
+
+        <md-sidenav class="md-sidenav-left md-whiteframe-z3" md-component-id="left">
+
+            <md-toolbar class="md-theme-indigo ">
+                <h1 class="md-toolbar-tools ">MENU PRINCIPAL</h1>
+            </md-toolbar>
+
+            <md-content>
+
+                <section ng-repeat="(key, value) in MenuUsuario | groupBy: 'menu' ">
+
+                    <md-subheader> {{key}} </md-subheader>
+
+                    <md-list ng-cloak>
+
+                        <md-list-item ng-repeat="(llave, valor) in value | groupBy: 'submenu1' ">
+
+                            <md-menu>
+
+                                <md-button ng-hide="llave == 'null' || llave == ''" ng-click="valor[0].submenu2 === null ?  link(valor[0].modulo1) : $mdOpenMenu(); "> {{llave}}
+                                </md-button>
+
+                                <md-menu-content width="4">
+
+                                    <md-menu-item ng-repeat=" item in valor ">
+                                        <md-button ng-hide="item.submenu2=='null' " ng-click="$mdOpenMenu(); closeleft(); link(item.modulo2); " aria-label="menu{{$index}} "> {{item.submenu2}} </md-button>
+
+                                    </md-menu-item>
+
+                                </md-menu-content>
+                            </md-menu>
+
+                            <md-divider ng-if="!$last "></md-divider>
+                        </md-list-item>
+                    </md-list>
+
+                </section>
+
+
+            </md-content>
+        </md-sidenav>
+
+
+        <md-content>
+
+            <ng-view></ng-view>
+
+
+        </md-content>
+
+    </div>
+
+
+
+    <!-- bower:js -->
+
+
+    <script src="bower_components/jquery/dist/jquery.min.js "></script>
+
+
+    <script src="bower_components/angular/angular.js "></script>
+
+
+    <script src="bower_components/angular-route/angular-route.js "></script>
+
+
+    <script src="bower_components/angular-sanitize/angular-sanitize.js "></script>
+
+
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js "></script>
+
+
+    <script src="bower_components/angular-animate/angular-animate.js "></script>
+
+
+    <script src="bower_components/angular-aria/angular-aria.js "></script>
+
+
+    <script src="bower_components/angular-messages/angular-messages.js "></script>
+
+
+    <script src="bower_components/angular-filter/dist/angular-filter.min.js "></script>
+
+
+    <script src="bower_components/ngstorage/ngStorage.js "></script>
+
+
+    <script src="bower_components/angular-material/angular-material.js "></script>
+
+
+    <script src="bower_components/angular-material-data-table/dist/md-data-table.js "></script>
+
+
+    <script src="bower_components/angular-resource/angular-resource.min.js "></script>
+
+
+    <!-- endinject -->
+
+
+    <script src="config/app.js "></script>
+    <script src="config/config.js "></script>
+    <script src="config/theme.js "></script>
+    <script src="config/route.js "></script>
+    <script src="config/services.js "></script>
+    <script src="config/filtros.js "></script>
+    <script src="config/controller.js "></script>
+
+
+
+</body>
+
+</html>
