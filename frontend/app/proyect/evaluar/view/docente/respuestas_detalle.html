@@ -1,32 +1,22 @@
 <script>
-    function respuestas($scope, $http, $filter, $window, $routeParams) {
+    function respuestas($scope, $http, $routeParams, $sessionStorage) {
 
-        $scope.CargarDatos = function(desde, hasta) {
+        console.log('routeParams', $routeParams.id);
 
-            var fecha_desde = $filter('date')(desde, "yyyy-MM-dd");
-            var fecha_hasta = $filter('date')(hasta, "yyyy-MM-dd");
-            $http({
-                method: 'GET',
-                url: main_route + "app/evaluar/controller/controller_evaluar.php?respuestas=true&id=" + $routeParams.id + "&desde=" + fecha_desde + "&hasta=" + fecha_hasta,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).then(function successCallback(response) {
-                var registros = response.data.registros;
-                console.log(registros);
-                $scope.registros = registros;
+        $http({
+            method: 'GET',
+            url: main_route + "app/evaluar/controller/controller_evaluar.php?respuestas_alumnos=true&identificacion=" + $routeParams.id,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function successCallback(response) {
+            var registros = response.data.registros;
+            console.log(registros);
+            $scope.registros = registros;
 
-            }, function errorCallback(response) {
-                console.error(response);
-            });
-        }
-
-        $scope.exportar = function(desde, hasta) {
-            var fecha_desde = $filter('date')(desde, "yyyy-MM-dd");
-            var fecha_hasta = $filter('date')(hasta, "yyyy-MM-dd");
-            $window.open(main_route + "app/evaluar/controller/controller_evaluar.php?exportar_buscar_respuestas=true&id=" + $routeParams.id + "&desde=" + fecha_desde + "&hasta=" + fecha_hasta);
-        };
-
+        }, function errorCallback(response) {
+            console.error(response);
+        });
     }
 </script>
 
@@ -47,42 +37,25 @@
                 <span class="md-subhead">LISTADO</span>
             </md-card-header-text>
 
-            <form flex class="flex">
-                <div layout-gt-xs="row">
-                    <div flex-gt-xs>
 
-                        <md-datepicker ng-model="fecha_desde" md-placeholder="desde"></md-datepicker>
-                    </div>
-                    <div flex-gt-xs>
+            <md-button class="md-icon-button" ng-click="loadStuff(); CargarDatos();">
+                <md-icon>refresh</md-icon>
+                <md-tooltip>
+                    ACTUALIZAR
+                </md-tooltip>
+            </md-button>
 
-                        <md-datepicker ng-model="fecha_hasta" md-placeholder="hasta"></md-datepicker>
-                    </div>
-                </div>
+            <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="filter.show = true"><md-icon class="material-icons">search</md-icon><div class="md-ripple-container"></div><md-tooltip> BUSCAR  </md-tooltip></button>
 
-            </form>
-
-            <div layout-gt-xs="row">
-
-
-
-
-                <md-button flex-gt-xs class="md-icon-button" ng-click="loadStuff(); CargarDatos(fecha_desde, fecha_hasta);">
-                    <md-icon>refresh</md-icon>
-                    <md-tooltip>
-                        ACTUALIZAR
-                    </md-tooltip>
-                </md-button>
-
-                <button flex-gt-xs class="md-icon-button md-button md-ink-ripple" type="button" ng-click="filter.show = true">
-                <md-icon class="material-icons">search</md-icon><div class="md-ripple-container"></div><md-tooltip> BUSCAR  </md-tooltip></button>
-
-                <md-button flex-gt-xs class="md-icon-button" ng-click="exportar(fecha_desde, fecha_hasta);" aria-label="file_download">
+            <md-button class="md-icon-button" aria-label="file_download">
+                <a href="./php/descargar_plantilla.php" download>
                     <md-icon>file_download</md-icon>
-                    <md-tooltip>
-                        DESCARGAR
-                    </md-tooltip>
-                </md-button>
-            </div>
+                </a>
+                <md-tooltip>
+                    DESCARGAR
+                </md-tooltip>
+            </md-button>
+
         </md-card-header>
 
 
@@ -95,7 +68,7 @@
                             <input type="text" ng-model="filter.search" placeholder="busqueda" style="margin-top: 20px;">
                         </md-input-container>
                     </form>
-                    <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="filter.show = false">     <md-icon class="material-icons">close</md-icon>      <div class="md-ripple-container"></div></button>
+                    <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="removeFilter()">     <md-icon class="material-icons">close</md-icon>      <div class="md-ripple-container"></div></button>
                 </div>
             </md-toolbar>
 
@@ -111,34 +84,34 @@
                         <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
                             <tr md-row>
                                 <th md-column md-order-by="id"><span>#</span></th>
+                                <th md-column md-order-by="fecha"><span>fecha</span></th>
                                 <th md-column md-order-by="nombres"><span>NOMBRES</span></th>
                                 <th md-column md-order-by="identificacion"><span>IDENTIFICACION</span></th>
                                 <th md-column md-order-by="titulo"><span>LECTURA</span></th>
-                                <th md-column md-order-by="nota"><span>NOTA</span></th>
                                 <th md-column md-order-by="literal"><span>LITERAL</span></th>
                                 <th md-column md-order-by="intertextual"><span>INTERTEXTUAL</span></th>
                                 <th md-column md-order-by="critico"><span>CRITICO</span></th>
                                 <th md-column md-order-by="inferencial"><span>INFERENCIAL</span></th>
                                 <th md-column md-order-by="correctas"><span>CORRECTAS</span></th>
                                 <th md-column md-order-by="total"><span>TOTAL</span></th>
-
+                                <th md-column md-order-by="nota"><span>NOTA</span></th>
 
                             </tr>
                         </thead>
                         <tbody md-body>
                             <tr md-row md-select="dato" md-on-select="logItem" ng-repeat="dato in filtered = ( registros | filter: filter.search)  | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
                                 <td md-cell>{{$index}} </td>
+                                <td md-cell>{{dato.fecha}}</td>
                                 <td md-cell>{{dato.nombres + ' ' + dato.apellidos }}</td>
-                                <td md-cell> <a href="#evaluar/modulo/respuestas_detalle/{{dato.identificacion}}">  {{dato.identificacion}} </a> </td>
+                                <td md-cell>{{dato.identificacion}}</td>
                                 <td md-cell>{{dato.lectura}}</td>
-                                <td md-cell>{{ (dato.correctas*7)/dato.total | number}}</td>
                                 <td md-cell>{{(dato.literal * 100) / dato.total_literal| number}} % </td>
                                 <td md-cell>{{(dato.intertextual * 100) / dato.total_intertextual | number}} % </td>
                                 <td md-cell>{{(dato.critico * 100) / dato.total_critico| number}} % </td>
                                 <td md-cell>{{(dato.inferencial * 100) / dato.total_inferencial| number}} % </td>
                                 <td md-cell>{{dato.correctas}}</td>
                                 <td md-cell>{{dato.total}}</td>
-
+                                <td md-cell>{{ (dato.correctas*7)/dato.total | number}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -146,7 +119,9 @@
 
                 </md-table-container>
 
-                <md-table-pagination md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'} " md-limit="query.limit " md-limit-options="[50, 100, 200] " md-page="query.page " md-total="{{registros.length}} " md-page-select></md-table-pagination>
+                <md-table-pagination md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'}" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{filtered.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks"
+                    md-on-paginate="logPagination">
+                </md-table-pagination>
 
 
             </div>

@@ -17,8 +17,9 @@ app.controller('AppCtrl', function(
     $mdSidenav,
     $mdDialog,
     $mdToast,
-    $sessionStorage
-) {
+    $sessionStorage) {
+
+    console.groupCollapsed("ingreso al controlador principal");
 
     $scope.ocultar_bienvenida = true;
 
@@ -102,7 +103,7 @@ app.controller('AppCtrl', function(
 
     $scope.$on('DatosUsuario', function(event, msg) {
         console.debug('DatosUsuario', msg.datos);
-        $scope.DatosUsuario = msg.datos;
+        $scope.DatosUsuario = msg.datos[0];
         msg.menu.slice(-2, 2);
         console.debug('MenuUsuario', msg.menu);
         $scope.MenuUsuario = msg.menu;
@@ -110,9 +111,6 @@ app.controller('AppCtrl', function(
 
 
     angular.element(document).ready(function() {
-
-
-        console.info("cargo controlador principal");
 
         $scope.pagina = 'principal';
 
@@ -137,22 +135,35 @@ app.controller('AppCtrl', function(
 
         //$localStorage.$reset();
         $sessionStorage.$reset();
+        $location.path('/login');
+
 
         console.log('eliminar enlinea', identificacion);
+
+        /*
 
         var resultado = RestUsuario.recursos().delete({ id: identificacion }, function() {
 
             console.log('se recibio el ajax para eliminar');
             sessionStorage.clear();
             localStorage.clear();
-            $location.path('/login');
             $route.reload();
 
             console.log('se ejecuto eliminar enlinea');
 
         });
+
+        */
     };
 
+    $scope.query = {
+        order: '',
+        limit: 100,
+        page: 1
+    };
+
+
+    console.groupEnd();
 });
 
 /*
@@ -208,28 +219,27 @@ app.controller('DialogOnline', function($scope, $mdDialog, data) {
 
 app.controller('valida_usuario', function($scope, $route, $routeParams, $location, $filter, $sessionStorage) {
 
+
+
     if (!angular.isUndefined($sessionStorage.registros)) {
 
-        console.info('validando acceso del usuario');
-
         console.groupCollapsed("ingreso al controlador valida usuario");
+
+        console.info('validando acceso del usuario');
 
         console.debug('route', $route);
         console.debug('location', $location);
         console.debug('location', $location.url());
         console.debug('routeParams', $routeParams);
 
-        console.groupEnd();
-
 
 
         $scope.$emit('DatosUsuario', $sessionStorage.registros);
 
-
-
         var ruta = $location.path().substring(1);
 
-        console.debug('ruta', ruta);
+        console.debug('ruta:..', ruta);
+
 
         var MainMenu = $sessionStorage.registros.menu;
         console.debug('MainMenu :', MainMenu);
@@ -239,26 +249,32 @@ app.controller('valida_usuario', function($scope, $route, $routeParams, $locatio
             //   MainMenu.push({ menu: "principal", modulo1: "ingreso", submenu1: null }, { menu: "inicio", modulo1: "login", submenu1: null });
 
 
-
             if (angular.isUndefined($routeParams.id)) {
 
-                var found = $filter('filter')(MainMenu, { modulo1: find_id }, true);
+                var found1 = $filter('filter')(MainMenu, { modulo1: find_id }, true);
+                var found2 = $filter('filter')(MainMenu, { modulo2: find_id }, true);
 
             } else {
 
-                var ruta = find_id.substr(0, find_id.length - 2);
-                var found = $filter('filter')(MainMenu, { modulo1: ruta }, true);
+                //var ruta = find_id.substr(0, find_id.length - 2);
+                var remove_number = find_id.replace(/\d+/g, '');
+                var ruta = remove_number.substr(0, remove_number.length - 1);
+                console.info(ruta);
+
+                var found1 = $filter('filter')(MainMenu, { modulo1: ruta }, true);
+                var found2 = $filter('filter')(MainMenu, { modulo2: ruta }, true);
 
             }
 
 
-            if (found.length) {
+            if (found1.length || found2.length) {
 
-                console.info('menu encontrado:', JSON.stringify(found));
+                //console.info('menu encontrado:', JSON.stringify(found));
+                console.info('menu encontrado:');
 
             } else {
                 console.warn('no existe');
-                //$location.path('/ingreso');
+                $location.path('/ingreso');
             }
 
             MainMenu.slice(0, -2);
@@ -272,13 +288,14 @@ app.controller('valida_usuario', function($scope, $route, $routeParams, $locatio
 
 
 
-
+        console.groupEnd();
 
 
 
     } else {
         $location.path('/login');
     }
+
 
 
 
@@ -292,7 +309,8 @@ app.controller('valida_usuario', function($scope, $route, $routeParams, $locatio
 
 app.controller('login', function($scope, $location, $route, $http, $sessionStorage, $mdDialog) {
 
-    console.info("ingreso al controlador login");
+    console.groupCollapsed("ingreso al controlador login");
+
 
     if (window.matchMedia('(display-mode: standalone)').matches) {
         console.log("Thank you for installing our app!");
@@ -377,5 +395,6 @@ app.controller('login', function($scope, $location, $route, $http, $sessionStora
 
     };
 
+    console.groupEnd();
 
 });

@@ -26,10 +26,10 @@ var mainBowerFiles = require('main-bower-files');
 var debug = require('gulp-debug');
 
 gulp.task('bower', function() {
-    return gulp.src('./app/development/index.html')
+    return gulp.src('./app/index.html')
         .pipe(inject(gulp.src(
             mainBowerFiles(), { read: false }), { name: 'bower', relative: true }))
-        .pipe(gulp.dest('./app/development/'));
+        .pipe(gulp.dest('./app/'));
 });
 
 gulp.task('desarrollo', function() {
@@ -43,16 +43,16 @@ gulp.task('desarrollo', function() {
 
 
 gulp.task('html', function() {
-    gulp.src('./app/development/*.html')
+    gulp.src('./app/*.html')
         .pipe(connect.reload());
 });
 
 
 gulp.task('minifyhtmlall', function() {
     return gulp.src([
-            './app/development/*.html',
-            './app/development/proyect/**/*.html',
-            './app/development/view/**/*.html'
+            './app/*.html',
+            './app/proyect/**/*.html',
+            './app/view/**/*.html'
         ])
         .pipe(plumber())
         .pipe(htmlmin({
@@ -65,7 +65,7 @@ gulp.task('minifyhtmlall', function() {
 se minifica el codigo html de los proyectos
 */
 gulp.task('MinifyHtmlProyect', function() {
-    return gulp.src('./app/development/proyect/**/*.html')
+    return gulp.src('./app/proyect/**/*.html')
         .pipe(plumber())
         .pipe(htmlmin({
             collapseWhitespace: true
@@ -77,7 +77,7 @@ gulp.task('MinifyHtmlProyect', function() {
 se minifica el codigo html del index principal
 */
 gulp.task('MinifyHtmlView', function() {
-    return gulp.src('./app/development/view/**/*.html')
+    return gulp.src('./app/view/**/*.html')
         .pipe(plumber())
         .pipe(htmlmin({
             collapseWhitespace: true
@@ -87,14 +87,14 @@ gulp.task('MinifyHtmlView', function() {
 
 
 gulp.task('MinifyJsProyect', function() {
-    gulp.src('./app/development/proyect/**/*.js')
+    gulp.src('./app/proyect/**/*.js')
         .pipe(plumber())
         .pipe(uglify())
         .pipe(gulp.dest('./app/testing/proyect'));
 });
 
 gulp.task('MinifyJs', function() {
-    gulp.src('./app/development/*.js')
+    gulp.src('./app/*.js')
         .pipe(plumber())
         .pipe(uglify({
             mangle: false
@@ -104,7 +104,7 @@ gulp.task('MinifyJs', function() {
 
 
 gulp.task('MinifyJsConfiguracion', function() {
-    gulp.src('./app/development/configuration/**/*.js')
+    gulp.src('./app/configuration/**/*.js')
         .pipe(plumber())
         .pipe(uglify({
             mangle: false,
@@ -117,7 +117,7 @@ gulp.task('MinifyJsConfiguracion', function() {
 });
 
 gulp.task('MinifyCssAssets', function() {
-    gulp.src('./app/development/assets/**/*.css')
+    gulp.src('./app/assets/**/*.css')
         .pipe(plumber())
         .pipe(minifyCss())
         .pipe(gulp.dest('./app/testing/assets/'));
@@ -125,7 +125,7 @@ gulp.task('MinifyCssAssets', function() {
 
 
 gulp.task('compress', function() {
-    gulp.src('./app/development/index.html')
+    gulp.src('./app/index.html')
         .pipe(plumber())
         .pipe(useref())
         .pipe(gulpif('*.js', uglify()))
@@ -135,7 +135,7 @@ gulp.task('compress', function() {
 
 
 gulp.task('imagemin', function() {
-    gulp.src('./app/development/assets/images/**/*.{jpg,jpeg,png,gif,svg}')
+    gulp.src('./app/images/**/*.{jpg,jpeg,png,gif,svg}')
         .pipe(plumber())
         .pipe(imagemin())
         .pipe(gulp.dest('./app/testing/assets/images'));
@@ -143,7 +143,7 @@ gulp.task('imagemin', function() {
 
 
 gulp.task('minifyimg', function() {
-    return gulp.src('./app/development/assets/images/**/*.{jpg,jpeg,png,gif,svg}')
+    return gulp.src('./app/images/**/*.{jpg,jpeg,png,gif,svg}')
         .pipe(plumber())
         .pipe(imagemin({
             progressive: true,
@@ -159,7 +159,7 @@ gulp.task('minifyimg', function() {
 
 gulp.task('watch', function() {
     gulp.watch([
-        './app/development/view/**/*.html'
+        './app/view/**/*.html'
     ], ['html']);
 });
 

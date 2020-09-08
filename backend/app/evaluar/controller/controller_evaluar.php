@@ -5,6 +5,13 @@ require_once('../../../run.php');
 /* LIBRERIAS CONFIGURACION PERSONAL */
 use librerias\clases\sistema;
 
+	use librerias\clases\excel;
+	use librerias\clases\csv;
+
+
+	$excel = new excel();
+	$csv = new csv();
+
 use app\evaluar\model\evaluaciones;
 
 $objeto = new evaluaciones();
@@ -33,13 +40,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
             if(isset($aulas)){$resultados =  $objeto->buscar_aulas($id);}
 
-            if(isset($respuestas)){$resultados =  $objeto->buscar_respuestas($id);}          
+            if(isset($respuestas)){$resultados =  $objeto->buscar_respuestas($id, $desde, $hasta);}          
+
+            if(isset($exportar_buscar_respuestas)){$resultados = $excel->exportar($objeto->exportar_buscar_respuestas($id, $desde, $hasta), 'export', "desde: $desde -- hasta: $hasta" ); }
             
 			
 		}
 		else{		
 			
-            if(isset($respuestas_alumnos)){$resultados =  $objeto->buscar_respuestas_alumnos($identificacion);}
+            if(isset($respuestas_alumnos)){$resultados =  $objeto->buscar_respuestas_alumnos($identificacion);}            
 
             if(isset($consultar_categoria)){$resultados = $objeto->consultar_categoria(); }
 			          

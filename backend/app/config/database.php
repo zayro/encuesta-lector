@@ -1,6 +1,6 @@
 <?php
 
-namespace config;
+namespace app\config;
 
 #require_once('../run.php');
 
@@ -19,7 +19,7 @@ class conexion extends DBMS {
 		
 		$database = "proyecto";
 		
-		$user = "root";
+		$user = "zayro";
 		
 		$password = "zayro";
 		

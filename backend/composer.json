@@ -24,8 +24,8 @@
         "psr-4": {
             "Testify\\": "componentes/Testify/lib/Testify/",
             "librerias\\": "librerias/",
-            "app\\": "app/",
-            "config\\": "config/"
+            "app\\": "app/"
+
         }
     }
 }

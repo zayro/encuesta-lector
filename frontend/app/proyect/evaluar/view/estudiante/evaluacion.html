@@ -1,7 +1,6 @@
 <script>
     function EnvioCuestionario($scope, $location, $route, $mdDialog, $http, dato, $sessionStorage, $routeParams) {
 
-
         $scope.data = {};
 
         var data = $sessionStorage.registros.datos[0];
@@ -31,6 +30,8 @@
                 data: datos
             }).then(function successCallback(response) {
                 console.log(response);
+                alert('EXAMEN PRESENTADO - PARA VER SUS CALIFICACIONES DIRÍJASE AL MENU DE RESULTADOS');
+
                 $scope.cancelar();
             }, function errorCallback(response) {
                 console.error(response);
@@ -47,12 +48,14 @@
         }).then(function successCallback(response) {
 
                 var registros = response.data.registros;
+
                 console.debug('carga preguntas', registros);
+
                 $scope.preguntas = registros;
 
                 if (registros == undefined) {
 
-                    $scope.titulo = 'ya se realizo examen';
+                    $scope.titulo = 'EXAMEN PRESENTADO - PARA VER SUS CALIFICACIONES DIRÍJASE AL MENU DE RESULTADOS';
 
                 } else {
 
@@ -97,12 +100,13 @@
 
 
         $scope.MostrarCuestionario = function(eventos) {
+
             $scope.customFullscreen = false;
 
             $scope.preguntas = "";
 
-
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+
             $mdDialog.show({
                     controller: 'EnvioCuestionario',
                     templateUrl: './proyect/evaluar/view/estudiante/cuestionario.html',
@@ -119,11 +123,13 @@
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
+
             $scope.$watch(function() {
                 return $mdMedia('xs') || $mdMedia('sm');
             }, function(wantsFullScreen) {
                 $scope.customFullscreen = (wantsFullScreen === true);
             });
+
         };
 
     }

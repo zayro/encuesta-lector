@@ -1,8 +1,20 @@
 <script>
-    function respuestas($scope, $http, $routeParams, $sessionStorage) {
+    function respuestas($scope, $http, $sessionStorage, $mdDialog) {
+
+        $scope.MostrarGrafico = function($event) {
+            var parentEl = angular.element(document.body);
+            $mdDialog.show({
+                parent: parentEl,
+                targetEvent: $event,
+                template: '<div id="chart"> el gato volador</div>',
+                //locals: {  items: $scope.items  },
+                //controller: DialogController
+            });
+
+        }
 
         var data = $sessionStorage.registros.datos[0];
-        console.debug('carga datos cursos', data.identificacion);
+
         $http({
             method: 'GET',
             url: main_route + "app/evaluar/controller/controller_evaluar.php?respuestas_alumnos=true&identificacion=" + data.identificacion,
@@ -14,123 +26,229 @@
             console.log(registros);
             $scope.registros = registros;
 
+            var literal = "";
+            var total_literal = '';
+
+            var critico = "";
+            var total_critico = '';
+
+            var inferencial = "";
+            var total_inferencial = '';
+
+            var intertextual = "";
+            var total_intertextual = '';
+
+            var fecha = '';
+
+            angular.forEach(registros, function(value, key) {
+                //console.log(key + ': ' + value);
+                angular.forEach(value, function(v1, k1) {
+
+
+                    if (k1 == 'total_intertextual') {
+                        total_intertextual = v1;
+                    }
+
+                    if (k1 == 'intertextual') {
+                        //literal_respuesta += v1 + ',';                        
+                        intertextual += ((v1 * 100) / total_intertextual) + ',';
+                    }
+
+
+                    if (k1 == 'total_inferencial') {
+                        total_inferencial = v1;
+                    }
+
+                    if (k1 == 'inferencial') {
+                        //literal_respuesta += v1 + ',';                        
+                        inferencial += ((v1 * 100) / total_inferencial) + ',';
+                    }
+
+                    if (k1 == 'total_critico') {
+                        total_critico = v1;
+
+                    }
+
+                    if (k1 == 'critico') {
+                        //literal_respuesta += v1 + ',';                        
+                        critico += ((v1 * 100) / total_critico) + ',';
+                    }
+
+                    if (k1 == 'total_literal') {
+                        total_literal = v1;
+
+                    }
+
+                    if (k1 == 'literal') {
+                        //literal_respuesta += v1 + ',';                        
+                        literal += ((v1 * 100) / total_literal) + ',';
+                    }
+
+                    if (k1 == 'fecha') {
+                        fecha += v1 + ',';
+                    }
+
+
+                });
+            });
+
+            console.log('fecha', fecha);
+
+            var GrapFecha = fecha.substring(0, fecha.length - 1);
+            $scope.ArrayFecha = GrapFecha.split(',');
+
+            var GrapIntertextual = 'intertextual,' + intertextual.substring(0, intertextual.length - 1);
+            $scope.ArrayIntertextual = GrapIntertextual.split(',');
+
+            var GrapInferencial = 'inferencial,' + inferencial.substring(0, inferencial.length - 1);
+            $scope.ArrayInferencial = GrapInferencial.split(',');
+
+            var GrapLiteral = 'literal,' + literal.substring(0, literal.length - 1);
+            $scope.ArrayLiteral = GrapLiteral.split(',');
+
+            var GrapCritico = 'critico,' + critico.substring(0, critico.length - 1);
+            $scope.ArrayCritico = GrapCritico.split(',');
+
+            var chart = c3.generate({
+                bindto: '#chart',
+                data: {
+
+                    columns: [
+                        $scope.ArrayIntertextual, $scope.ArrayLiteral, $scope.ArrayCritico, $scope.ArrayInferencial
+                    ]
+                },
+                axis: {
+                    y: {
+                        tick: {
+                            format: d3.format("%,")
+                                //                format: function (d) { return "$" + d; }
+                        }
+                    }
+                },
+                axis: {
+                    x: {
+                        type: 'category',
+                        categories: $scope.ArrayFecha
+
+                    }
+                }
+            });
+
         }, function errorCallback(response) {
             console.error(response);
         });
+
     }
 </script>
 
-<section layout="row " layout-sm="column " layout-align="center center " layout-wrap ng-controller="respuestas">
+<div ng-controller="respuestas">
 
-    <md-card flex flex-gt-xs="98" class="md-whiteframe-2dp">
+    <section layout="row " layout-sm="column " layout-align="center center " layout-wrap>
 
-
-        <md-card-header ng-hide="filter.show">
-
-
-            <md-card-avatar>
-                <md-icon class="md-avatar-icon"><i class="material-icons">portrait</i></md-icon>
-            </md-card-avatar>
-
-            <md-card-header-text>
-                <span class="md-title">RESULTADOS DE LECTURA</span>
-                <span class="md-subhead">LISTADO</span>
-            </md-card-header-text>
+        <md-card flex flex-gt-xs="98" class="md-whiteframe-2dp">
 
 
-            <md-button class="md-icon-button" ng-click="loadStuff(); CargarDatos();">
-                <md-icon>refresh</md-icon>
-                <md-tooltip>
-                    ACTUALIZAR
-                </md-tooltip>
-            </md-button>
-
-            <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="filter.show = true"><md-icon class="material-icons">search</md-icon><div class="md-ripple-container"></div><md-tooltip> BUSCAR  </md-tooltip></button>
-
-            <md-button class="md-icon-button" aria-label="file_download">
-                <a href="./php/descargar_plantilla.php" download>
-                    <md-icon>file_download</md-icon>
-                </a>
-                <md-tooltip>
-                    DESCARGAR
-                </md-tooltip>
-            </md-button>
-
-        </md-card-header>
+            <md-card-header ng-hide="filter.show">
 
 
-        <md-card-header ng-show="filter.show">
-            <md-toolbar class="md-table-toolbar md-default">
-                <div class="md-toolbar-tools">
-                    <md-icon class="material-icons">search</md-icon>
-                    <form flex name="filter.form" class="flex">
-                        <md-input-container md-no-float class="md-block">
-                            <input type="text" ng-model="filter.search" placeholder="busqueda" style="margin-top: 20px;">
-                        </md-input-container>
-                    </form>
-                    <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="removeFilter()">     <md-icon class="material-icons">close</md-icon>      <div class="md-ripple-container"></div></button>
+                <md-card-avatar>
+                    <md-icon class="md-avatar-icon"><i class="material-icons">portrait</i></md-icon>
+                </md-card-avatar>
+
+                <md-card-header-text>
+                    <span class="md-title">RESULTADOS DE LECTURA</span>
+                    <span class="md-subhead">LISTADO</span>
+                </md-card-header-text>
+
+
+
+                <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="filter.show = true"><md-icon class="material-icons">search</md-icon><div class="md-ripple-container"></div><md-tooltip> BUSCAR  </md-tooltip></button>
+
+
+
+            </md-card-header>
+
+
+            <md-card-header ng-show="filter.show">
+                <md-toolbar class="md-table-toolbar md-default">
+                    <div class="md-toolbar-tools">
+                        <md-icon class="material-icons">search</md-icon>
+                        <form flex name="filter.form" class="flex">
+                            <md-input-container md-no-float class="md-block">
+                                <input type="text" ng-model="filter.search" placeholder="busqueda" style="margin-top: 20px;">
+                            </md-input-container>
+                        </form>
+                        <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="removeFilter()">     <md-icon class="material-icons" ng-click="filter.show = false">close</md-icon>      <div class="md-ripple-container"></div></button>
+                    </div>
+                </md-toolbar>
+
+
+            </md-card-header>
+
+            <md-card-content>
+
+                <div id="contenedor_listado">
+
+                    <md-table-container>
+                        <table md-table md-progress="promise">
+                            <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column><span>#</span></th>
+                                    <th md-column><span>fecha</span></th>
+                                    <th md-column><span>NOMBRES</span></th>
+                                    <th md-column><span>IDENTIFICACION</span></th>
+                                    <th md-column><span>LECTURA</span></th>
+                                    <th md-column><span>LITERAL</span></th>
+                                    <th md-column><span>INTERTEXTUAL</span></th>
+                                    <th md-column><span>CRITICO</span></th>
+                                    <th md-column><span>INFERENCIAL</span></th>
+                                    <th md-column><span>CORRECTAS</span></th>
+                                    <th md-column><span>TOTAL</span></th>
+                                    <th md-column><span>NOTA</span></th>
+
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row md-select="dato" md-on-select="logItem" ng-repeat="dato in filtered = ( registros | filter: filter.search)  | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                                    <td md-cell>{{$index}} </td>
+                                    <td md-cell>{{dato.fecha}}</td>
+                                    <td md-cell>{{dato.nombres + ' ' + dato.apellidos }}</td>
+                                    <td md-cell>{{dato.identificacion}}</td>
+                                    <td md-cell>{{dato.lectura}}</td>
+                                    <td md-cell>{{(dato.literal * 100) / dato.total_literal| number}} % </td>
+                                    <td md-cell>{{(dato.intertextual * 100) / dato.total_intertextual | number}} % </td>
+                                    <td md-cell>{{(dato.critico * 100) / dato.total_critico| number}} % </td>
+                                    <td md-cell>{{(dato.inferencial * 100) / dato.total_inferencial| number}} % </td>
+                                    <td md-cell>{{dato.correctas}}</td>
+                                    <td md-cell>{{dato.total}}</td>
+                                    <td md-cell>{{ (dato.correctas*7)/dato.total | number}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </md-table-container>
+
+                    <md-table-pagination md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'} " md-limit="query.limit " md-limit-options="[50, 100, 200] " md-page="query.page " md-total="{{registros.length}} " md-page-select></md-table-pagination>
+
+
                 </div>
-            </md-toolbar>
+
+            </md-card-content>
 
 
-        </md-card-header>
-
-        <md-card-content>
-
-            <div id="contenedor_listado">
-
-                <md-table-container>
-                    <table md-table md-progress="promise">
-                        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
-                            <tr md-row>
-                                <th md-column md-order-by="id"><span>#</span></th>
-                                <th md-column md-order-by="fecha"><span>fecha</span></th>
-                                <th md-column md-order-by="nombres"><span>NOMBRES</span></th>
-                                <th md-column md-order-by="identificacion"><span>IDENTIFICACION</span></th>
-                                <th md-column md-order-by="titulo"><span>LECTURA</span></th>
-                                <th md-column md-order-by="literal"><span>LITERAL</span></th>
-                                <th md-column md-order-by="intertextual"><span>INTERTEXTUAL</span></th>
-                                <th md-column md-order-by="critico"><span>CRITICO</span></th>
-                                <th md-column md-order-by="inferencial"><span>INFERENCIAL</span></th>
-                                <th md-column md-order-by="correctas"><span>CORRECTAS</span></th>
-                                <th md-column md-order-by="total"><span>TOTAL</span></th>
-                                <th md-column md-order-by="nota"><span>NOTA</span></th>
-
-                            </tr>
-                        </thead>
-                        <tbody md-body>
-                            <tr md-row md-select="dato" md-on-select="logItem" ng-repeat="dato in filtered = ( registros | filter: filter.search)  | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
-                                <td md-cell>{{$index}} </td>
-                                <td md-cell>{{dato.fecha}}</td>
-                                <td md-cell>{{dato.nombres + ' ' + dato.apellidos }}</td>
-                                <td md-cell>{{dato.identificacion}}</td>
-                                <td md-cell>{{dato.lectura}}</td>
-                                <td md-cell>{{(dato.literal * 100) / dato.total_literal| number}} % </td>
-                                <td md-cell>{{(dato.intertextual * 100) / dato.total_intertextual | number}} % </td>
-                                <td md-cell>{{(dato.critico * 100) / dato.total_critico| number}} % </td>
-                                <td md-cell>{{(dato.inferencial * 100) / dato.total_inferencial| number}} % </td>
-                                <td md-cell>{{dato.correctas}}</td>
-                                <td md-cell>{{dato.total}}</td>
-                                <td md-cell>{{ (dato.correctas*7)/dato.total | number}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-
-                </md-table-container>
-
-                <md-table-pagination md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'}" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{filtered.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks"
-                    md-on-paginate="logPagination">
-                </md-table-pagination>
-
-
-            </div>
-
-        </md-card-content>
-
-
-    </md-card>
+        </md-card>
 
 
 
-</section>
+    </section>
+
+    <section layout="row " layout-sm="column " layout-align="center center " layout-wrap>
+        <md-card flex flex-gt-xs="98" class="md-whiteframe-2dp">
+            <div id="chart"> </div>
+
+        </md-card>
+
+    </section>
+
+</div>

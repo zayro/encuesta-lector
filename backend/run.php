@@ -53,6 +53,7 @@ date_default_timezone_set('America/Bogota');
 
 $token = null;
 
+/*
 $headers = apache_request_headers();
 
 if(isset($headers['Authorization'])){
@@ -60,5 +61,6 @@ if(isset($headers['Authorization'])){
 #print ($headers['Authorization']);
 	
 }
+*/
 
 extract($_REQUEST);

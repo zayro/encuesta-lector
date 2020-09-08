@@ -18,19 +18,24 @@
         "tests"
     ],
     "dependencies": {
-        "jquery": "^2.2.4",
-        "material-design-icons": "^2.2.3",
-        "angular": "1.5.6",
+        "jquery": "~2.2.4",
+        "material-design-icons": "~2.2.3",
+        "angular": "~1.5.6",
         "angular-route": "1.5.6",
         "angular-sanitize": "1.5.6",
-        "angular-loading-bar": "^0.9.0",
-        "satellizer": "^0.14.0",
-        "angular-animate": "^1.5.6",
-        "angular-material": "^1.0.9",
-        "angular-filter": "^0.5.8",
-        "ngstorage": "^0.3.10",
-        "alertifyjs": "^1.0.11",
-        "ngmap": "^1.17.3",
-        "angular-resource": "^1.5.8"
+        "angular-loading-bar": "~0.9.0",
+        "satellizer": "~0.14.0",
+        "angular-animate": "~1.5.6",
+        "angular-material": "~1.0.9",
+        "angular-filter": "~0.5.8",
+        "ngstorage": "~0.3.11",
+        "alertifyjs": "~1.0.11",
+        "angular-resource": "~1.5.8",
+        "c3": "~0.4.11",
+        "angular-i18n": "~1.6.1",
+        "angular-material-data-table": "~0.10.10"
+    },
+    "resolutions": {
+        "angular": "~1.5.x"
     }
 }

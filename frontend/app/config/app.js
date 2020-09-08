@@ -13,10 +13,12 @@ var hosting = 'http://api.zavweb.com/';
 
 var enrutar = 'http://' + location.hostname + '/lector/backend/';
 
-const main_route = hosting;
+const main_route = enrutar;
 
 
-var app = angular.module('app', ['angular-loading-bar',
+var app = angular.module('app', [
+    'ngMaterial',
+    'angular-loading-bar',
     'md.data.table',
     'angular.filter',
     'ngAnimate',
@@ -25,7 +27,6 @@ var app = angular.module('app', ['angular-loading-bar',
     'ngMessages',
     'ngAnimate',
     'ngSanitize',
-    'ngMaterial',
     'ngStorage',
     'ngResource'
 ]);

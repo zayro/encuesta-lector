@@ -1,4 +1,4 @@
-<section layout="row " layout-sm="column " layout-align="center center " layout-wrap>
+<section layout="row " layout-sm="column " layout-align="center center " layout-wrap ng-controlller="AppCtrl">
 
     <md-card flex flex-gt-xs="85 ">
 
@@ -14,14 +14,22 @@
 
         <md-card-title>
             <md-card-title-text>
-                <img src="images/principal/paginas-webs.png " alt="IMAGEN PRINCIPAL ">
+                <figure ng-switch on="DatosUsuario.id_grupo">
+                    <img ng-switch-when="2" src="images/principal/niño.svg" alt="IMAGEN PRINCIPAL ">
+                    <img ng-switch-when="3" src="images/principal/profesor.svg" alt="IMAGEN PRINCIPAL PROFESORES">
+                    <img ng-switch-when="1" src="images/principal/programing.svg" alt="IMAGEN PRINCIPAL PROFESORES">
+                </figure>
+
             </md-card-title-text>
         </md-card-title>
 
         <md-card-content layout="row " layout-align="start center ">
+            <div ng-switch on="DatosUsuario.id_grupo" class="text-center">
+                <p ng-switch-when="2" class="text-center"> Lees lo que quieres, cuando quieres y donde quieres, aprendiendo, fortaleciendo tus habilidades y mejorando tu comprensión lectora. </p>
+                <p ng-switch-when="3" class="text-center"> Tus estudiantes leen lo que quieren, cuando quieren y donde quieren, aprendiendo, fortaleciendo sus habilidades y mejorando su comprensión lectora. </p>
+                <p ng-switch-when="1"> perfil programador </p>
+            </div>
 
-            <p> Una Página Web muy sofisticada y que transmita una imagen profesional, con información clara y actualizada de nuestros productos y servicios, que nos permita lograr nuestros objetivos y, sobre todo, que nos permita el contacto y comunicación
-                con nuestros clientes . </p>
 
 
         </md-card-content>

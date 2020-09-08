@@ -2,7 +2,7 @@
     function categorias($scope, $http) {
         $http({
             method: 'GET',
-            url: main_route + "app/evaluar/controller/controller_evaluar.php?respuestas_alumnos=true",
+            url: main_route + "app/evaluar/controller/controller_evaluar.php?consultar_categoria=true",
             data: $.param({
                 preguntas: true
             }),
@@ -22,11 +22,11 @@
 </script>
 <div ng-cloak layout="row " layout-sm="column " layout-align="center center " layout-wrap ng-controller="categorias">
 
-    <div flex-gt-sm="90" flex>
+    <div flex-gt-sm="100" flex>
 
         <md-toolbar layout="row" class="md-hue-3">
             <div class="md-toolbar-tools">
-                <span>Categorias</span>
+                <span>Lecturas</span>
             </div>
         </md-toolbar>
 

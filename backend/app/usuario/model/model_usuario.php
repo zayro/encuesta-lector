@@ -4,7 +4,7 @@ namespace app\usuario\model;
 
 #require_once('../../../../run.php');
 
-use config\conexion;
+use app\config\conexion;
 
 /* LIBRERIAS CONFIGURACION PERSONAL */
 use librerias\clases\sistema;
@@ -111,7 +111,8 @@ class usuarios extends conexion {
         LEFT JOIN proyecto.submenu_1 ON submenu_1.id_menu = m.id
         LEFT JOIN proyecto.submenu_2 ON submenu_2.id_submenu_1 = submenu_1.id
         WHERE
-            u.identificacion = ?";
+            u.identificacion = ?            
+            order by submenu_1.nombre asc";
 
         $params = array("$usuario");
 		

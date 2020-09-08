@@ -1,117 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title></title>
-    <meta charset="UTF-8">
-    
-  </head>
-  <body>
-  
-
 <?php
 
-#$db = new DBMS("mysql", "31.220.20.208", "u769767837_moto", "u769767837_moto", "zayro2016", "3306");
-class Conexion extends PDO {
-	
-	
-	private $tipo_de_base = 'mysql';
-	
-    private $host = 'mysql.hostinger.co';
-	
-	private $nombre_de_base = 'u769767837_nh';
-	
-	private $usuario = 'u769767837_nh';
-	
-	private $contrasena = 'zayro2016';	
-	
-	
-	public function __construct() {	
-		
-		try{			
-			
-			parent::__construct($this->tipo_de_base.':host='.$this->host.';dbname='.$this->nombre_de_base, $this->usuario, $this->contrasena);			
-			
-		}
-		
-		catch(PDOException $e){			
-			
-			echo 'Ha surgido un error y no se puede conectar a la base de datos. Detalle: ' . $e->getMessage();			
-			
-			exit;			
-			
-		}
-		
-		
-	}
-	
-	
-}
+namespace librerias\clases;
+
+//require_once('../run.php');
+
+use app\config\conexion;
+
+class excel extends conexion
+{
+public function exportar($query, $filename, $caption){
+  //header("Content-Type: application/vnd.ms-excel");
 
 
-$conexion = NEW Conexion;
+  header('Content-Type: application/vnd.ms-excel; charset=utf-8');
+  header('Content-type: application/x-msexcel; charset=utf-8');
+  header("Content-Disposition: attachment; filename=$filename.xls");
+  header('Pragma: no-cache');
+  header('Expires: 0');
 
-$filename="reporte.xls";
-
-#header("Content-Type: application/vnd.ms-excel");
-header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-header("Content-type: application/x-msexcel; charset=utf-8");
-header("Content-Disposition: attachment; filename=$filename");
-header("Pragma: no-cache");
-header("Expires: 0");
-
-$query = "SELECT * from urbano order by ID desc";
-
-$sth = $conexion->prepare($query);
-
-$sth->execute();
-
-
-$nombres = $sth->fetch(PDO::FETCH_NAMED);
-
-print("\n");
-
-
-$fields = array_keys($nombres);
-$count = count($fields);
-
-
-print "<table border='1'>";
-
-print "<tr>";
-
-for ($i = 0 ; $count>$i; $i++){
-	
-	print "<th>". $fields[$i] . "</th>";
-	
-}
-
-print "</tr>";
+  //header('Content-Type: text/html; charset=utf-8');
 
 
 
-foreach ($conexion->query($query) as $row) {
+  $nombres = $this->query($query, 'named');
 
- 	print "<tr>";
-	
-for ($i = 0 ; $count>$i; $i++){
-	
-	print "<td>". $row[$i] . "</td>";
-	
-}	
+  $fields = array_keys($nombres);
+  $count = count($fields);
+
+  echo " 
+  <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+</head>
+<body>
+<table border='1'>
+<caption>$caption</caption>
+";
+
+  echo '<tr>';
+
+  for ($i = 0; $count > $i; ++$i){
+    echo '<th>'.$fields[$i].'</th>';
+  }
+
+  echo '</tr>';
+
+  foreach ($this->query($query, 'both') as $row) {
+    echo '<tr>';
+
+  for ($i = 0; $count > $i; ++$i){
+    echo '<td>'.($row[$i]).'</td>';
+  }	
 
 
-	print "</tr>";	
-}
+    echo '</tr>';
+  }
+
+    echo '</table>
+    
+    </body>
+</html>';
 
 
 
-print "</table>";
+    }
+  }
 
+/*
+  $instance = new excel();
 
+  $instance->exportar('select * from demo', 'report');
 
+  */
 
 ?>
 
-  </body>
-</html>
 
+
+  

@@ -24,12 +24,18 @@ app.config(function($routeProvider) {
             templateUrl: 'proyect/evaluar/view/estudiante/categorias.html',
             controller: 'valida_usuario'
         })
-        .when('/evaluar/modulo/resultado', {
+        .when('/resultado/modulos/aulas', {
+            templateUrl: 'proyect/evaluar/view/docente/cursos.html',
+            controller: 'valida_usuario'
+        })
+        .when('/resultado/modulo/resultado', {
             templateUrl: 'proyect/evaluar/view/estudiante/resultado.html',
             controller: 'valida_usuario'
         })
-        .when('/resultado/modulos/aulas', {
-            templateUrl: 'proyect/evaluar/view/docente/cursos.html',
+        .when('/evaluar/modulo/respuestas_detalle/:id', {
+            templateUrl: function(routeParams) {
+                return 'proyect/evaluar/view/docente/respuestas_detalle.html'
+            },
             controller: 'valida_usuario'
         })
         .when('/evaluar/modulo/test/:id', {
@@ -72,9 +78,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 
         })
 
-    .otherwise({ redirectTo: '/ingreso' }
-
-    );
+    .otherwise({ redirectTo: '/ingreso' });
 
 
 

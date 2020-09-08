@@ -94,6 +94,7 @@
                 .bajar50 {
                     padding-top: 5%;
                 }
+                /*
                 table.md-table td.md-cell {
                     font-size: 10px;
                 }
@@ -109,6 +110,7 @@
                     background-color: #CFD8DC;
                     transition: background-color .2s;
                 }
+                */
             }
             
             .md-toast.error {
